@@ -1,0 +1,12 @@
+time
+telebot
+telebot
+sqlite3
+pytesseract
+cv2
+numpy
+PIL
+re
+textwrap
+os
+json
