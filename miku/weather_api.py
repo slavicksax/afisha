@@ -8,6 +8,6 @@ def get_weather(lat, lon):
     if response.status_code == 200:
         data = response.json()
         #print(data['main']['temp']-273.15)
-        return data['main']['temp']-273.15
+        return round((data['main']['temp']-272.65))
     else:
         print("Ошибка при выполнении запроса:", response.status_code)

@@ -73,7 +73,7 @@ def create(path_bg,text,folder_path):
         siz = int((1920 - start_height) / count_tr)
 
     if siz < 650:
-        image_width = siz - 200
+        image_width = siz - 185
     korect = 0
     if siz > 650:
         korect = int((siz - 500)/2)
@@ -105,32 +105,32 @@ def create(path_bg,text,folder_path):
         for root, dirs, files in os.walk(folder_path):
             for file_name in files:
                 file_path = os.path.join(root, file_name)
-                if tit_fir_sec[1].lower().strip() in file_name.replace(".png","").lower():
+                if tit_fir_sec[1].lower().strip() == file_name.replace(".png","").lower():
                     overlay_image = Image.open(file_path)
                     image_loc = first_column
-                elif tit_fir_sec[2].lower().strip() in file_name.replace(".png","").lower():
+                elif tit_fir_sec[2].lower().strip() == file_name.replace(".png","").lower():
                     overlay_image = Image.open(file_path)
                     image_loc = second_column
                 else:
                     continue
 
                 overlay_image = overlay_image.convert("RGBA")
-                k = overlay_image.height / (image_width - tit_kor)
+                k = overlay_image.height / (image_width - 40)
                 w = int(overlay_image.width / k)
-                h = image_width - tit_kor
+                h = image_width - 40
                 overlay_image = overlay_image.resize((w, h))
-                image.alpha_composite(overlay_image,(image_loc - int(w/2),tit_kor + temp_height + 100 + korect))
+                image.alpha_composite(overlay_image,(image_loc - int(w/2),  temp_height + 140 + korect))
 
                 s = font_pub.getlength("VS")/2
 
-                draw.text((first_column + (second_column - first_column)/2 - s,temp_height + 100 + korect + h/2),'VS', font=font_pub, fill=vs_color)
+                draw.text((first_column + (second_column - first_column)/2 - s,temp_height + 120 + korect + h/2),'VS', font=font_pub, fill=vs_color)
                 text_width = font_name.getlength(tit_fir_sec[1])
                 x = first_column - int(text_width / 2)
-                y = temp_height + 120 + h + tit_kor + korect
+                y = temp_height + 140 + h + korect
                 draw.text((x,y), tit_fir_sec[1], font=font_name, fill=title_color)
                 text_width = font_name.getlength(tit_fir_sec[2])
                 x = second_column - int(text_width / 2)
-                y = temp_height + 120 + h + tit_kor + korect
+                y = temp_height + 140 + h  + korect
                 draw.text((x, y), tit_fir_sec[2], font=font_name, fill=title_color)
 
 

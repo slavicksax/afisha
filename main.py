@@ -15,6 +15,9 @@ import creator
 import creator_pub
 import io
 from googletrans import Translator
+import datetime
+
+
 
 
 rest_path = '/root/rest_path'
@@ -31,7 +34,7 @@ afisha_1 = 'Restoran'
 afisha_2 = 'Pub'
 creator_ = 'Photo Generation'
 finish_task_btn = '/Finish'
-button_ok = 'Текст Норм'
+button_ok = 'Текст идеален'
 message_1 = "Отправь фото или текст меню"
 message_1_corect = 'Отредактируй и перешли'
 message_2 = "Уже жду список матчей"
@@ -55,6 +58,8 @@ def main_request(id):
     btn3 = types.KeyboardButton(creator_)
     markup.add(btn3)
     bot.send_message(id, "Что делаем?", reply_markup=markup)
+def MAINREQUEST(id):
+    bot.send_message(id, "Помни что он тебя любит🥹😘❤️\nСкажи что он самый лучший и пришли милую фотку ему😍🥰😍\nРасскажи , что делаешь и что будешь, ему интересно знать😘😘😘", reply_markup=types.ReplyKeyboardRemove())
 
 def set_task(id,task):
     query = f"UPDATE user_task SET task = ? WHERE id = ?;"
@@ -170,6 +175,7 @@ def get_text_messages(message):
                     bot.send_message(message.from_user.id, "Добавь время второй строкой", reply_markup=ReplyKeyboardRemove())
                 image = creator.create(rest_bg, date, time, menu, rest_path)
                 bot.send_photo(message.from_user.id, image)
+                MAINREQUEST(message.from_user.id)
             else:
 
                 date = message.text.splitlines()[0]
@@ -180,11 +186,13 @@ def get_text_messages(message):
                 image.save("temp.png")
                 with open("temp.png", "rb") as file:
                     bot.send_document(message.chat.id, document=file)
+                MAINREQUEST(message.from_user.id)
         elif result == 'PUB':
             image = creator_pub.create(pub_bg, message.text, pub_path)
             image.save("temp.png")
             with open("temp.png", "rb") as file:
                 bot.send_document(message.chat.id, document=file)
+            MAINREQUEST(message.from_user.id)
         elif result == 'ADD_REST' or result == 'ADD_PUB':
             connection = sqlite3.connect('my_database.db')
             cursor = connection.cursor()
@@ -229,8 +237,10 @@ def handle_photo(message):
             image = Image.open(image_bytes)
             pytesseract.pytesseract.tesseract_cmd = ocr_path
             menu = pytesseract.image_to_string(image, config='--psm 6', lang='rus')
-            add_menu(id, menu)
-            bot.send_message(message.from_user.id, menu, reply_markup=types.ReplyKeyboardRemove())
+            current_date = datetime.datetime.now().strftime('%d.%m.%Y')
+            menu_ = current_date + "\n" + "12:00-16:00\n" + menu
+            add_menu(id, menu_)
+            bot.send_message(message.from_user.id, menu_, reply_markup=types.ReplyKeyboardRemove())
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn1 = types.KeyboardButton(button_ok)
             markup.add(btn1)

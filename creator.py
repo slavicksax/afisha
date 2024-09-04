@@ -98,6 +98,8 @@ def create(path,date,time,menu,folder_path):
                 draw.text((left_indent, temp_h),l , font=font, fill=lanc_color)
                 temp_h += between_one
             temp_h += between_two - between_one
+        elif line == "addheight":
+            temp_h+=30
         else:
             coord.append(temp_h)
             if len(sl) > 0:
